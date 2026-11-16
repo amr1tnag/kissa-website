@@ -8,7 +8,7 @@ const steps = [
   { n: '01', t: 'The brief', d: 'We start with what is true about you: the people, the place, the moment worth keeping.' },
   { n: '02', t: 'The shoot', d: 'Photo and video on the day, on stage, on the field or in the studio. Real light, real people.' },
   { n: '03', t: 'The edit', d: 'Cut to the beat, graded with care, sized for every screen it will live on.' },
-  { n: '04', t: 'The किस्सा', d: 'A finished story: after movies, reels, stills and films people replay and share.' },
+  { n: '04', t: 'The ', dv: 'किस्सा', d: 'A finished story: after movies, reels, stills and films people replay and share.' },
 ];
 const services = [
   ['After movies', 'Fests, events and launches, cut into a film people relive.'],
@@ -22,7 +22,7 @@ const services = [
 <Layout title="About — किस्सा" description="किस्सा is a Mumbai media agency. Every brand has a किस्सा — we find it, shoot it and tell it.">
   <section class="wrap page-head">
     <p class="label" data-reveal>(About)</p>
-    <h1 class="h-display page-title" data-split>किस्सा।</h1>
+    <h1 class="h-display page-title deva" data-split>किस्सा।</h1>
     <p class="statement" style="margin-top:clamp(28px,4vw,48px)" data-scrub-words>
       Hindi for a story — the kind told over chai, retold at weddings, remembered for years. We make those, for brands, events and people.
     </p>
@@ -64,7 +64,7 @@ const services = [
         {steps.map((s) => (
           <div style="border-top:2px solid var(--paper);padding-top:18px" data-reveal>
             <p class="num" style="margin:0 0 12px">({s.n})</p>
-            <h3 class="h-condensed" style="font-size:clamp(44px,5vw,72px)">{s.t}</h3>
+            <h3 class="h-condensed" style="font-size:clamp(44px,5vw,72px)">{s.t}{s.dv && <span class="dv">{s.dv}</span>}</h3>
             <p class="muted" style="margin:16px 0 0">{s.d}</p>
           </div>
         ))}

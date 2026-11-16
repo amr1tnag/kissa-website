@@ -43,6 +43,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 /* ---------- type ---------- */
 .deva { font-family: var(--deva); letter-spacing: 0; }
+/* Hindi inside English headlines: a touch smaller and lighter so it sits with Archivo */
+.dv { font-family: var(--deva); font-weight: 600; font-size: 0.86em; letter-spacing: 0; }
 .logo { font-family: var(--deva); font-weight: 800; letter-spacing: 0; line-height: 1.15; text-decoration: none; white-space: nowrap; }
 .viram { color: var(--red); }
 .label { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
@@ -85,7 +87,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .nav.solid { background: rgba(12, 12, 12, 0.92); backdrop-filter: blur(8px); padding-block: 10px; }
 .nav.solid .logo .viram { color: var(--red); }
 .nav.hidden { transform: translateY(-100%); }
-.nav .logo { font-size: 30px; color: var(--paper); }
+.nav .logo { font-size: 26px; color: var(--paper); }
 .nav .logo .viram { color: var(--paper); }
 .nav-links { display: flex; gap: 32px; font-weight: 600; font-size: 15px; }
 .nav-links a { text-decoration: none; padding: 12px 0; position: relative; }
@@ -108,7 +110,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .menu.open { visibility: visible; }
 .menu-top { display: flex; justify-content: space-between; align-items: center; }
-.menu-top .logo { font-size: 30px; }
+.menu-top .logo { font-size: 26px; }
 .menu-top .logo .viram { color: var(--ink); }
 .menu ul { list-style: none; margin: 0; padding: 0; }
 .menu li { overflow: hidden; }
@@ -127,8 +129,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .hero-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; font-size: 14px; font-weight: 600; }
 .hero-title { font-size: clamp(48px, 8.4vw, 150px); max-width: 12ch; }
 .hero-mark {
-  font-family: var(--deva); font-weight: 800; color: var(--red);
-  font-size: clamp(160px, 31vw, 560px); line-height: 0.8; white-space: nowrap;
+  font-family: var(--deva); font-weight: 700; color: var(--red);
+  font-size: clamp(110px, 21vw, 380px); line-height: 0.8; white-space: nowrap;
   margin: 0 0 calc(-0.14em) -0.03em; pointer-events: none; will-change: transform;
 }
 .scroll-cue { position: absolute; right: var(--pad); bottom: 28px; font-size: 14px; font-weight: 600; }
@@ -249,15 +251,16 @@ dialog.viewer::backdrop { background: transparent; }
 .footer-grid h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ash); margin: 0 0 12px; }
 .footer-grid ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
 .footer-grid a { text-decoration: none; display: inline-block; padding-block: 6px; }
-.footer-mark { font-family: var(--deva); font-weight: 800; font-size: clamp(140px, 30vw, 520px); line-height: 0.8; color: var(--red); white-space: nowrap; margin: 48px 0 calc(-0.16em) -0.03em; }
+.footer-mark { font-family: var(--deva); font-weight: 700; font-size: clamp(100px, 20vw, 360px); line-height: 0.8; color: var(--red); white-space: nowrap; margin: 48px 0 calc(-0.16em) -0.03em; }
 .footer-base { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; font-size: 14px; font-weight: 600; color: var(--ash); padding-top: 32px; }
 
 /* ---------- page header (inner pages) ---------- */
 .page-head { padding-top: clamp(140px, 18vw, 220px); padding-bottom: clamp(40px, 6vw, 72px); }
 .page-title { font-size: clamp(72px, 15vw, 260px); }
+.page-title.deva { font-family: var(--deva); font-weight: 700; font-size: clamp(64px, 10vw, 180px); line-height: 1.1; margin-top: 0.25em; }
 
 /* ---------- motion helpers ---------- */
-.line { display: block; overflow: hidden; padding-bottom: 0.06em; margin-bottom: -0.06em; }
+.line { display: block; overflow: hidden; overflow: clip; padding: 0.22em 0 0.06em; margin: -0.22em 0 -0.06em; }
 .line > span { display: inline-block; }
 html.js:not(.reduce) [data-reveal] { opacity: 0; transform: translateY(40px); }
 html.js:not(.reduce) [data-clip] { clip-path: inset(100% 0 0 0); }
@@ -266,7 +269,7 @@ html.js:not(.reduce) [data-clip] { clip-path: inset(100% 0 0 0); }
 .intro {
   position: fixed; inset: 0; z-index: 100; background: var(--ink); display: grid; place-items: center;
 }
-.intro-word { font-family: var(--deva); font-weight: 800; font-size: clamp(96px, 22vw, 320px); line-height: 1.1; overflow: hidden; display: flex; }
+.intro-word { font-family: var(--deva); font-weight: 700; font-size: clamp(72px, 15vw, 220px); line-height: 1.1; overflow: hidden; display: flex; }
 .intro-word .ch { display: inline-block; }
 .intro-word .viram { display: inline-block; }
 .wipe { position: fixed; inset: 0; z-index: 90; background: var(--red); transform: translateY(100%); pointer-events: none; }

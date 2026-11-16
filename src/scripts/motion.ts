@@ -155,6 +155,7 @@ function scrubWords() {
       s.className = 'w';
       s.textContent = w;
       if (w.includes('किस्सा')) s.style.color = 'var(--red)';
+      if (/[\u0900-\u097F]/.test(w)) s.classList.add('dv');
       words.push(s);
       out.push(s);
     });
