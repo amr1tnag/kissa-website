@@ -28,7 +28,7 @@ const reels = films.filter((f) => f.vertical);
     <div class="section-head">
       <div class="title"><span class="num">(02)</span><h2 class="h-display" style="font-size:clamp(36px,5vw,72px)" data-split>Reels</h2></div>
     </div>
-    <div class="film-grid">
+    <div class="reels">
       {reels.map((f) => <FilmCard film={f} />)}
     </div>
   </section>

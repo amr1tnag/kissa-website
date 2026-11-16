@@ -11,18 +11,16 @@ interface Props {
 }
 const { project: p, index, wide = false } = Astro.props;
 const photo = p.cover.photo ? byId(p.cover.photo) : null;
-const loop = p.cover.film ? media(p.cover.film).loop : undefined;
 const poster = p.cover.film ? media(p.cover.film).poster : undefined;
 const parts = [p.films.length && `${p.films.length} film${p.films.length > 1 ? 's' : ''}`, p.photos.length && `${p.photos.length} photos`].filter(Boolean).join(' · ');
 ---
-<a class={`project${wide ? ' wide' : ''}`} href={`/work/${p.slug}`} data-cursor="Open" data-hover-loop={loop} data-reveal>
+<a class={`project${wide ? ' wide' : ''}`} href={`/work/${p.slug}`} data-cursor="Open" data-reveal>
   <span class="project-frame">
     {photo ? (
       <Image src={photo.img} widths={[600, 1000, 1600]} sizes={wide ? '(max-width: 900px) 100vw, 66vw' : '(max-width: 900px) 100vw, 33vw'} alt={`${p.title} — cover`} loading="lazy" />
     ) : (
       <img src={poster} alt={`${p.title} — cover`} loading="lazy" decoding="async" />
     )}
-    {loop && <video muted loop playsinline preload="none" aria-hidden="true"></video>}
     <span class="film-tag">[ {String(index + 1).padStart(2, '0')} ]</span>
   </span>
   <span class="project-info">

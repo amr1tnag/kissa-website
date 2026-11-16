@@ -18,7 +18,7 @@ export const projects: Project[] = [
     kind: 'Concerts',
     summary: 'Stage, smoke and the crowd, shot from the pit.',
     description:
-      'Concert coverage from the barricade: artists mid-song, light and smoke, phones in the air and the moment the crowd sings back. Delivered as stills, hype reels and artist edits.',
+      'Concert coverage from the barricade: artists mid-song, light and smoke, phones in the air and the moment the crowd sings back, in stills, hype reels and artist edits.',
     cover: { photo: 'dsc02029-1', film: 'hype-reel' },
     films: ['hype-reel', 'avanti-patil-edit', 'mohammed-irfan-edit', 'hype-reel-1'],
     photos: [

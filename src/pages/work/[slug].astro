@@ -20,11 +20,7 @@ const vertFilms = projFilms.filter((f) => f.vertical);
 const photos = p.photos.map(byId);
 const cover = p.cover.photo ? byId(p.cover.photo) : null;
 const nextCover = next.cover.photo ? byId(next.cover.photo) : null;
-const deliverables = [
-  ...wideFilms.map((f) => `${f.title} — ${f.duration}`),
-  ...vertFilms.map((f) => `Reel: ${f.title} — ${f.duration}`),
-  photos.length ? `${photos.length} photographs` : null,
-].filter(Boolean);
+const pairUp = wideFilms.length === 1 && vertFilms.length === 1;
 ---
 <Layout title={`${p.title} — किस्सा`} description={`${p.title}: ${p.summary} A project by किस्सा, Mumbai.`}>
   <section class="wrap page-head">
@@ -41,15 +37,7 @@ const deliverables = [
   )}
 
   <section class="wrap section" style="padding-bottom:clamp(40px,6vw,80px)">
-    <div class="project-brief">
-      <p class="statement" style="font-size:clamp(26px,3vw,44px);max-width:none" data-reveal>{p.description}</p>
-      <div data-reveal>
-        <p class="label muted" style="margin:0 0 12px">Delivered</p>
-        <ul class="deliverables">
-          {deliverables.map((d) => <li>{d}</li>)}
-        </ul>
-      </div>
-    </div>
+    <p class="statement" style="font-size:clamp(26px,3vw,44px);max-width:28ch" data-reveal>{p.description}</p>
   </section>
 
   {projFilms.length > 0 && (
@@ -58,10 +46,25 @@ const deliverables = [
         <div class="title"><span class="num">(01)</span><h2 class="h-display" style="font-size:clamp(36px,5vw,72px)" data-split>{projFilms.length > 1 ? 'Films' : 'Film'}</h2></div>
         <span class="muted num">Click to watch</span>
       </div>
-      <div class="film-grid">
-        {wideFilms.map((f, i) => <FilmCard film={f} size={wideFilms.length === 1 && vertFilms.length ? 'nine' : i === 0 && wideFilms.length % 2 === 1 ? 'big' : 'normal'} />)}
-        {vertFilms.map((f) => <FilmCard film={f} />)}
-      </div>
+      {pairUp ? (
+        <div class="film-grid">
+          <FilmCard film={wideFilms[0]} size="nine" />
+          <FilmCard film={vertFilms[0]} />
+        </div>
+      ) : (
+        <>
+          {wideFilms.length > 0 && (
+            <div class="film-grid">
+              {wideFilms.map((f, i) => <FilmCard film={f} size={i === 0 && wideFilms.length % 2 === 1 ? 'big' : 'normal'} />)}
+            </div>
+          )}
+          {vertFilms.length > 0 && (
+            <div class="reels" style={wideFilms.length ? 'margin-top:clamp(28px,3vw,44px)' : ''}>
+              {vertFilms.map((f) => <FilmCard film={f} />)}
+            </div>
+          )}
+        </>
+      )}
     </section>
   )}
 
