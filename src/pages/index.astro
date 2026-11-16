@@ -2,11 +2,13 @@
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import FilmCard from '../components/FilmCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
 import { films } from '../data/films';
 import { byId, categories, count, photos } from '../lib/photos';
 
-const featured = ['horizon-after-movie', 'udaan-after-movie', 'hype-reel', 'ganpati-aagman-final']
-  .map((s) => films.find((f) => f.slug === s)!);
+const featured = ['live', 'udaan-2025', 'ganpati-aagman', '3-sisters']
+  .map((s) => projects.findIndex((p) => p.slug === s));
 const reels = films.filter((f) => f.vertical);
 
 const frames = [
@@ -70,13 +72,13 @@ const filmCount = films.length;
   <section class="section">
     <div class="wrap">
       <div class="section-head">
-        <div class="title"><span class="num">(01)</span><h2 class="h-display h-section" data-split>Films</h2></div>
-        <a class="link-arrow" href="/films">All {filmCount} films <span>→</span></a>
+        <div class="title"><span class="num">(01)</span><h2 class="h-display h-section" data-split>Selected work</h2></div>
+        <a class="link-arrow" href="/work">All {projects.length} projects <span>→</span></a>
       </div>
-      <div class="film-grid">
-        <FilmCard film={featured[0]} size="big" />
-        {featured.slice(1).map((f) => <FilmCard film={f} size="third" />)}
+      <div class="project-grid">
+        {featured.map((i, n) => <ProjectCard project={projects[i]} index={i} wide={n === 0 || n === 3} />)}
       </div>
+      <a class="link-arrow" href="/films" style="margin-top:28px">Watch all {filmCount} films <span>→</span></a>
     </div>
   </section>
 

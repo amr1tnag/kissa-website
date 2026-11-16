@@ -2,7 +2,7 @@
 import { media, type Film } from '../data/films';
 interface Props {
   film: Film;
-  size?: 'big' | 'third' | 'normal';
+  size?: 'big' | 'third' | 'nine' | 'normal';
 }
 const { film, size = 'normal' } = Astro.props;
 const m = media(film.slug);

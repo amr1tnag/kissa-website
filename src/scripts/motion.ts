@@ -249,6 +249,24 @@ function filmCards() {
   dlg.addEventListener('click', (e) => { if (e.target === dlg || (e.target as HTMLElement).classList.contains('viewer-inner')) close(); });
 }
 
+/* ---------- project cards: cover film loop on hover / in view ---------- */
+function projectCards() {
+  const cards = $$('[data-hover-loop]');
+  const play = (c: HTMLElement) => {
+    const v = $<HTMLVideoElement>('video', c);
+    if (!v) return;
+    if (!v.src) v.src = c.dataset.hoverLoop || '';
+    v.play().then(() => c.classList.add('playing')).catch(() => {});
+  };
+  const stop = (c: HTMLElement) => { c.classList.remove('playing'); $<HTMLVideoElement>('video', c)?.pause(); };
+  if (fine) {
+    cards.forEach((c) => { c.addEventListener('mouseenter', () => play(c)); c.addEventListener('mouseleave', () => stop(c)); });
+  } else if (!reduce) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => (e.isIntersecting ? play(e.target as HTMLElement) : stop(e.target as HTMLElement))), { threshold: 0.6 });
+    cards.forEach((c) => io.observe(c));
+  }
+}
+
 /* ---------- photo archive: filters + lightbox ---------- */
 function gallery() {
   const grid = $('[data-gallery]');
@@ -397,6 +415,7 @@ if (reduce) {
   filmCards();
   gallery();
 } else {
+  projectCards();
   pageWipe();
   cursor();
   intro().then(() => {

@@ -1,0 +1,94 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import FilmCard from '../../components/FilmCard.astro';
+import { films, media } from '../../data/films';
+import { projects } from '../../data/projects';
+import { byId } from '../../lib/photos';
+
+export function getStaticPaths() {
+  return projects.map((p, i) => ({ params: { slug: p.slug }, props: { index: i } }));
+}
+
+const { slug } = Astro.params;
+const { index } = Astro.props;
+const p = projects.find((x) => x.slug === slug)!;
+const next = projects[(index + 1) % projects.length];
+const projFilms = p.films.map((s) => films.find((f) => f.slug === s)!);
+const wideFilms = projFilms.filter((f) => !f.vertical);
+const vertFilms = projFilms.filter((f) => f.vertical);
+const photos = p.photos.map(byId);
+const cover = p.cover.photo ? byId(p.cover.photo) : null;
+const nextCover = next.cover.photo ? byId(next.cover.photo) : null;
+const deliverables = [
+  ...wideFilms.map((f) => `${f.title} — ${f.duration}`),
+  ...vertFilms.map((f) => `Reel: ${f.title} — ${f.duration}`),
+  photos.length ? `${photos.length} photographs` : null,
+].filter(Boolean);
+---
+<Layout title={`${p.title} — किस्सा`} description={`${p.title}: ${p.summary} A project by किस्सा, Mumbai.`}>
+  <section class="wrap page-head">
+    <p class="label" data-reveal>(Project {String(index + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}) — {p.kind}</p>
+    <h1 class="h-display page-title" style="font-size:clamp(56px,10vw,180px)" data-split>{p.title}</h1>
+  </section>
+
+  {cover && (
+    <section class="wrap">
+      <div style="overflow:hidden" data-clip>
+        <Image src={cover.img} widths={[800, 1400, 2000]} sizes="100vw" alt={`${p.title} — cover`} style="width:100%;height:auto;max-height:86vh;object-fit:cover" data-parallax loading="eager" />
+      </div>
+    </section>
+  )}
+
+  <section class="wrap section" style="padding-bottom:clamp(40px,6vw,80px)">
+    <div class="project-brief">
+      <p class="statement" style="font-size:clamp(26px,3vw,44px);max-width:none" data-reveal>{p.description}</p>
+      <div data-reveal>
+        <p class="label muted" style="margin:0 0 12px">Delivered</p>
+        <ul class="deliverables">
+          {deliverables.map((d) => <li>{d}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {projFilms.length > 0 && (
+    <section class="wrap" style="padding-bottom:clamp(60px,8vw,120px)">
+      <div class="section-head">
+        <div class="title"><span class="num">(01)</span><h2 class="h-display" style="font-size:clamp(36px,5vw,72px)" data-split>{projFilms.length > 1 ? 'Films' : 'Film'}</h2></div>
+        <span class="muted num">Click to watch</span>
+      </div>
+      <div class="film-grid">
+        {wideFilms.map((f, i) => <FilmCard film={f} size={wideFilms.length === 1 && vertFilms.length ? 'nine' : i === 0 && wideFilms.length % 2 === 1 ? 'big' : 'normal'} />)}
+        {vertFilms.map((f) => <FilmCard film={f} />)}
+      </div>
+    </section>
+  )}
+
+  {photos.length > 0 && (
+    <section class="wrap" style="padding-bottom:clamp(80px,10vw,140px)">
+      <div class="section-head">
+        <div class="title"><span class="num">({projFilms.length ? '02' : '01'})</span><h2 class="h-display" style="font-size:clamp(36px,5vw,72px)" data-split>Photographs</h2></div>
+        <span class="muted num">{photos.length} frames</span>
+      </div>
+      <div class="masonry" data-gallery>
+        {photos.map((ph, i) => (
+          <button class="shot" data-cat={ph.cat} data-full={ph.img.src} data-cursor="View" aria-label={`Open ${p.title} photo ${i + 1}`}>
+            <Image src={ph.img} widths={[400, 700, 1000]} sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw" alt={`${p.title} — photo ${i + 1}`} loading={i < 3 ? 'eager' : 'lazy'} />
+            <span class="shot-cat">{p.title}</span>
+          </button>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <a class="next-project" href={`/work/${next.slug}`} data-cursor="Next">
+    <span class="wrap" style="display:block">
+      <span class="label">Next project</span>
+      <span class="next-title h-display">{next.title} <span aria-hidden="true">→</span></span>
+    </span>
+    <span class="next-bg" aria-hidden="true">
+      {nextCover ? <Image src={nextCover.img} widths={[1200, 2000]} sizes="100vw" alt="" loading="lazy" /> : <img src={media(next.cover.film!).poster} alt="" loading="lazy" />}
+    </span>
+  </a>
+</Layout>

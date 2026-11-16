@@ -1,17 +1,31 @@
 ---
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects, projectOfPhoto } from '../data/projects';
 import { archive, categories, count, photos } from '../lib/photos';
 
 const catLabel = Object.fromEntries(categories.map((c) => [c.id, c.label]));
 ---
-<Layout title="Work — किस्सा" description="Photography by किस्सा: concerts, festivals, sports and brand shoots.">
+<Layout title="Work — किस्सा" description="Projects by किस्सा: concerts, festivals, sports and brand shoots — films and photography.">
   <section class="wrap page-head">
-    <p class="label" data-reveal>(Work) — {photos.length} frames</p>
-    <h1 class="h-display page-title" data-split>Frames</h1>
+    <p class="label" data-reveal>(Work) — {projects.length} projects · {photos.length} frames</p>
+    <h1 class="h-display page-title" data-split>Work</h1>
   </section>
 
   <section class="wrap" style="padding-bottom:clamp(80px,10vw,140px)">
+    <div class="section-head">
+      <div class="title"><span class="num">(01)</span><h2 class="h-display" style="font-size:clamp(36px,5vw,72px)" data-split>Projects</h2></div>
+    </div>
+    <div class="project-grid">
+      {projects.map((p, i) => <ProjectCard project={p} index={i} wide={[0, 6, 7].includes(i)} />)}
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-bottom:clamp(80px,10vw,140px)" id="frames">
+    <div class="section-head">
+      <div class="title"><span class="num">(02)</span><h2 class="h-display" style="font-size:clamp(36px,5vw,72px)" data-split>All frames</h2></div>
+    </div>
     <div class="filters" role="group" aria-label="Filter photos" data-filters style="margin-bottom:clamp(28px,4vw,48px)">
       <button class="filter" aria-pressed="true" data-filter="all">All<sup>{photos.length}</sup></button>
       {categories.map((c) => (
@@ -26,16 +40,16 @@ const catLabel = Object.fromEntries(categories.map((c) => [c.id, c.label]));
           data-cat={p.cat}
           data-full={p.img.src}
           data-cursor="View"
-          aria-label={`Open ${catLabel[p.cat]} photo ${i + 1}`}
+          aria-label={`Open photo: ${projectOfPhoto(p.id)?.title ?? catLabel[p.cat]}`}
         >
           <Image
             src={p.img}
             widths={[400, 700, 1000]}
             sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
-            alt=""
-            loading={i < 6 ? 'eager' : 'lazy'}
+            alt={`${projectOfPhoto(p.id)?.title ?? catLabel[p.cat]} — ${catLabel[p.cat]}`}
+            loading="lazy"
           />
-          <span class="shot-cat">{catLabel[p.cat]}</span>
+          <span class="shot-cat">{projectOfPhoto(p.id)?.title ?? catLabel[p.cat]}</span>
         </button>
       ))}
     </div>

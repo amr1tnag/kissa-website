@@ -154,7 +154,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .film.big { grid-column: span 12; }
 .film.vert { grid-column: span 3; }
 .film.third { grid-column: span 4; }
-@media (max-width: 900px) { .film, .film.big, .film.third { grid-column: span 12; } .film.vert { grid-column: span 6; } }
+.film.nine { grid-column: span 9; }
+@media (max-width: 900px) { .film, .film.big, .film.third, .film.nine { grid-column: span 12; } .film.vert { grid-column: span 6; } }
 .film-frame { display: block; position: relative; overflow: hidden; background: var(--smoke); aspect-ratio: 16 / 9; }
 .film.big .film-frame { aspect-ratio: 21 / 9; }
 .film.vert .film-frame { aspect-ratio: 9 / 16; }
@@ -292,3 +293,46 @@ html.js:not(.reduce) [data-clip] { clip-path: inset(100% 0 0 0); }
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
   .intro, .cursor { display: none; }
 }
+
+/* ---------- projects ---------- */
+.project-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: clamp(28px, 3vw, 44px) clamp(14px, 2vw, 24px); }
+.project { grid-column: span 4; display: flex; flex-direction: column; gap: 10px; text-decoration: none; color: inherit; }
+.project.wide { grid-column: span 8; }
+@media (max-width: 900px) { .project, .project.wide { grid-column: span 12; } }
+.project:hover { color: inherit; }
+.project-frame { display: block; position: relative; overflow: hidden; background: var(--smoke); aspect-ratio: 4 / 5; }
+.project.wide .project-frame { aspect-ratio: 8 / 5; }
+@media (max-width: 900px) { .project.wide .project-frame { aspect-ratio: 4 / 5; } }
+.project-frame img, .project-frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--ease), opacity 0.4s; }
+.project-frame video { opacity: 0; }
+.project.playing .project-frame video { opacity: 1; }
+.project:hover .project-frame img, .project:hover .project-frame video { transform: scale(1.04); }
+.project-info { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+.project-title { font-family: var(--display); font-weight: 800; letter-spacing: -0.02em; font-size: clamp(22px, 2.2vw, 32px); line-height: 1.05; transition: color 0.3s; }
+.project:hover .project-title { color: var(--red); }
+.project-sub { font-size: 15px; }
+.project-parts { white-space: nowrap; }
+.on-paper .project-frame { background: #dcd8cf; }
+.project-brief { display: grid; grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr); gap: clamp(28px, 5vw, 80px); align-items: start; }
+@media (max-width: 800px) { .project-brief { grid-template-columns: 1fr; } }
+.deliverables { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--paper); }
+.deliverables li { border-bottom: 1px solid rgba(241, 238, 230, 0.25); padding: 12px 0; font-weight: 600; }
+.next-project { position: relative; display: block; overflow: hidden; text-decoration: none; color: var(--paper); padding-block: clamp(80px, 12vw, 180px); background: var(--ink); }
+.next-project:hover { color: var(--paper); }
+.next-project .wrap { position: relative; z-index: 1; }
+.next-title { display: block; font-size: clamp(48px, 9vw, 160px); margin-top: 12px; transition: color 0.3s; }
+.next-project:hover .next-title { color: var(--red); }
+.next-bg { position: absolute; inset: 0; opacity: 0.28; transition: opacity 0.6s var(--ease), transform 1.2s var(--ease); }
+.next-bg img { width: 100%; height: 100%; object-fit: cover; }
+.next-project:hover .next-bg { opacity: 0.5; transform: scale(1.04); }
+
+/* ---------- whatsapp ---------- */
+.wa {
+  position: fixed; right: clamp(16px, 2.4vw, 32px); bottom: clamp(16px, 2.4vw, 32px); z-index: 45;
+  display: inline-flex; align-items: center; gap: 10px; min-height: 56px; padding: 0 20px 0 16px; border-radius: 999px;
+  background: var(--red); color: var(--paper); text-decoration: none; font-weight: 700; font-size: 15px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35); transition: transform 0.4s var(--ease), background 0.3s;
+}
+.wa:hover { color: var(--paper); background: #c81e15; transform: translateY(-3px); }
+.wa svg { flex: none; }
+@media (max-width: 600px) { .wa .wa-label { display: none; } .wa { padding: 0; width: 56px; justify-content: center; } }
