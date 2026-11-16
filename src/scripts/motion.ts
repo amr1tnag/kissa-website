@@ -81,9 +81,14 @@ function intro(): Promise<void> {
 function pageWipe() {
   const wipe = $('.wipe');
   if (!wipe || reduce) return;
+  // GSAP owns the transform: clear the CSS offset so pixel y and yPercent never stack
+  gsap.set(wipe, { y: 0, yPercent: 100 });
   if (store('kissa-wipe')) {
     store('kissa-wipe', '');
-    gsap.fromTo(wipe, { yPercent: 0 }, { yPercent: -100, duration: 0.8, ease: 'expo.inOut', delay: 0.05 });
+    gsap.fromTo(wipe, { yPercent: 0 }, {
+      yPercent: -100, duration: 0.8, ease: 'expo.inOut', delay: 0.05,
+      onComplete: () => { gsap.set(wipe, { yPercent: 100 }); },
+    });
   }
   document.addEventListener('click', (e) => {
     const a = (e.target as HTMLElement).closest('a');
@@ -97,7 +102,7 @@ function pageWipe() {
       yPercent: 0, duration: 0.6, ease: 'expo.inOut', onComplete: () => { location.href = url.href; },
     });
   });
-  window.addEventListener('pageshow', (e) => { if ((e as PageTransitionEvent).persisted) gsap.set(wipe, { yPercent: 100 }); });
+  window.addEventListener('pageshow', (e) => { if ((e as PageTransitionEvent).persisted) gsap.set(wipe, { y: 0, yPercent: 100 }); });
 }
 
 /* ---------- hero ---------- */
