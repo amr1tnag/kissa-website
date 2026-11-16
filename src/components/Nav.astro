@@ -1,0 +1,32 @@
+---
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const links = [
+  { href: '/work', label: 'Work' },
+  { href: '/films', label: 'Films' },
+  { href: '/about', label: 'About' },
+  { href: '#contact', label: 'Contact' },
+];
+---
+<header class="nav">
+  <a href="/" class="logo" aria-label="किस्सा — home">किस्सा<span class="viram">।</span></a>
+  <nav aria-label="Main">
+    <div class="nav-links">
+      {links.map((l) => (
+        <a href={l.href} aria-current={path === l.href ? 'page' : undefined}>{l.label}</a>
+      ))}
+    </div>
+  </nav>
+  <button class="menu-btn" aria-expanded="false" aria-controls="menu">Menu</button>
+</header>
+
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="menu-top">
+    <a href="/" class="logo">किस्सा<span class="viram">।</span></a>
+    <button class="menu-close menu-btn" style="display:block">Close</button>
+  </div>
+  <ul>
+    <li><a href="/">Home</a></li>
+    {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+  </ul>
+  <p class="num">Mumbai, India · <a href="mailto:hello@kissa.in">hello@kissa.in</a></p>
+</div>

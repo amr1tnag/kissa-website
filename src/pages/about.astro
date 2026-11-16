@@ -1,0 +1,74 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import { byId } from '../lib/photos';
+
+const collage = ['img-1596', 'zam8512', 'dsc-0292', 'img-9107'].map(byId);
+const steps = [
+  { n: '01', t: 'The brief', d: 'We start with what is true about you: the people, the place, the moment worth keeping.' },
+  { n: '02', t: 'The shoot', d: 'Photo and video on the day, on stage, on the field or in the studio. Real light, real people.' },
+  { n: '03', t: 'The edit', d: 'Cut to the beat, graded with care, sized for every screen it will live on.' },
+  { n: '04', t: 'The किस्सा', d: 'A finished story: after movies, reels, stills and films people replay and share.' },
+];
+const services = [
+  ['After movies', 'Fests, events and launches, cut into a film people relive.'],
+  ['Concert coverage', 'Stage, crowd and backstage — stills and hype edits.'],
+  ['Festival & cultural', 'Aagman processions, Navratri, performances and traditions.'],
+  ['Sports', 'Match days, tournaments and runs — action and emotion.'],
+  ['Brand & product', 'Product stills and short brand films for the feed.'],
+  ['Reels & social', 'Vertical edits made to stop the scroll.'],
+];
+---
+<Layout title="About — किस्सा" description="किस्सा is a Mumbai media agency. Every brand has a किस्सा — we find it, shoot it and tell it.">
+  <section class="wrap page-head">
+    <p class="label" data-reveal>(About)</p>
+    <h1 class="h-display page-title" data-split>किस्सा।</h1>
+    <p class="statement" style="margin-top:clamp(28px,4vw,48px)" data-scrub-words>
+      Hindi for a story — the kind told over chai, retold at weddings, remembered for years. We make those, for brands, events and people.
+    </p>
+  </section>
+
+  <section class="wrap" style="padding-bottom:clamp(80px,10vw,140px)">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:clamp(12px,1.6vw,20px)">
+      {collage.map((p, i) => (
+        <div style={`overflow:hidden;margin-top:${i % 2 ? 'clamp(0px,6vw,96px)' : '0'}`} data-clip>
+          <Image src={p.img} widths={[400, 800]} sizes="(max-width: 700px) 100vw, 25vw" alt="" loading="lazy" style="width:100%;height:auto" data-parallax />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="on-paper section">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="title"><span class="num">(01)</span><h2 class="h-display h-section" data-split>What we do</h2></div>
+      </div>
+      <div class="rows">
+        {services.map(([t, d], i) => (
+          <div class="row" style="grid-template-columns:80px minmax(0,1fr) minmax(0,1fr)" data-reveal>
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="row-name" style="font-size:clamp(28px,4vw,60px)">{t}</span>
+            <span style="font-size:17px">{d}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="title"><span class="num">(02)</span><h2 class="h-display h-section" data-split>How we work</h2></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:clamp(20px,3vw,40px)">
+        {steps.map((s) => (
+          <div style="border-top:2px solid var(--paper);padding-top:18px" data-reveal>
+            <p class="num" style="margin:0 0 12px">({s.n})</p>
+            <h3 class="h-condensed" style="font-size:clamp(44px,5vw,72px)">{s.t}</h3>
+            <p class="muted" style="margin:16px 0 0">{s.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

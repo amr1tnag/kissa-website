@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FilmCard from '../components/FilmCard.astro';
+import { films } from '../data/films';
+
+const wide = films.filter((f) => !f.vertical);
+const reels = films.filter((f) => f.vertical);
+---
+<Layout title="Films — किस्सा" description="After movies, concert edits, festival films, sports and brand reels by किस्सा.">
+  <section class="wrap page-head">
+    <p class="label" data-reveal>(Films) — {films.length} edits</p>
+    <h1 class="h-display page-title" data-split>Films</h1>
+  </section>
+
+  <section class="wrap" style="padding-bottom:clamp(60px,8vw,120px)">
+    <div class="section-head">
+      <div class="title"><span class="num">(01)</span><h2 class="h-display" style="font-size:clamp(36px,5vw,72px)" data-split>After movies &amp; edits</h2></div>
+      <span class="muted num">Hover to preview · click to watch</span>
+    </div>
+    <div class="film-grid">
+      <FilmCard film={wide[0]} size="big" />
+      {wide.slice(1, -1).map((f) => <FilmCard film={f} />)}
+      <FilmCard film={wide[wide.length - 1]} size="big" />
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-bottom:clamp(80px,10vw,140px)">
+    <div class="section-head">
+      <div class="title"><span class="num">(02)</span><h2 class="h-display" style="font-size:clamp(36px,5vw,72px)" data-split>Reels</h2></div>
+    </div>
+    <div class="film-grid">
+      {reels.map((f) => <FilmCard film={f} />)}
+    </div>
+  </section>
+</Layout>

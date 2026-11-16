@@ -1,0 +1,59 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/inter-tight';
+import '@fontsource-variable/anek-devanagari/wdth.css';
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Viewers from '../components/Viewers.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  intro?: boolean;
+}
+const {
+  title = 'किस्सा — Media agency, Mumbai',
+  description = 'किस्सा is a Mumbai media agency for photography, films and edits — concerts, festivals, sports and brands. Every brand has a किस्सा।',
+  intro = false,
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/media/video/hero-poster.jpg" />
+    <meta name="theme-color" content="#0C0C0C" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('reduce');
+    </script>
+  </head>
+  <body>
+    <a class="sr-only" href="#main">Skip to content</a>
+    {intro && (
+      <div class="intro" aria-hidden="true">
+        <div class="intro-word">
+          <span class="ch">किस्सा</span><span class="viram">।</span>
+        </div>
+      </div>
+    )}
+    <div class="wipe" aria-hidden="true"></div>
+    <div class="cursor" aria-hidden="true"><span class="cursor-label"></span></div>
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <Viewers />
+    <script>
+      import '../scripts/motion.ts';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import { archive, categories, count, photos } from '../lib/photos';
+
+const catLabel = Object.fromEntries(categories.map((c) => [c.id, c.label]));
+---
+<Layout title="Work — किस्सा" description="Photography by किस्सा: concerts, festivals, sports and brand shoots.">
+  <section class="wrap page-head">
+    <p class="label" data-reveal>(Work) — {photos.length} frames</p>
+    <h1 class="h-display page-title" data-split>Frames</h1>
+  </section>
+
+  <section class="wrap" style="padding-bottom:clamp(80px,10vw,140px)">
+    <div class="filters" role="group" aria-label="Filter photos" data-filters style="margin-bottom:clamp(28px,4vw,48px)">
+      <button class="filter" aria-pressed="true" data-filter="all">All<sup>{photos.length}</sup></button>
+      {categories.map((c) => (
+        <button class="filter" aria-pressed="false" data-filter={c.id}>{c.label}<sup>{count(c.id)}</sup></button>
+      ))}
+    </div>
+
+    <div class="masonry" data-gallery>
+      {archive.map((p, i) => (
+        <button
+          class="shot"
+          data-cat={p.cat}
+          data-full={p.img.src}
+          data-cursor="View"
+          aria-label={`Open ${catLabel[p.cat]} photo ${i + 1}`}
+        >
+          <Image
+            src={p.img}
+            widths={[400, 700, 1000]}
+            sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
+            alt=""
+            loading={i < 6 ? 'eager' : 'lazy'}
+          />
+          <span class="shot-cat">{catLabel[p.cat]}</span>
+        </button>
+      ))}
+    </div>
+  </section>
+</Layout>

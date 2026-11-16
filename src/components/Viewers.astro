@@ -1,0 +1,24 @@
+<dialog class="viewer" id="player" aria-label="Film player">
+  <div class="viewer-inner">
+    <div class="viewer-bar">
+      <span data-player-title></span>
+      <button class="viewer-close" data-close>Close</button>
+    </div>
+    <video controls playsinline preload="none"></video>
+  </div>
+</dialog>
+
+<dialog class="viewer" id="lightbox" aria-label="Photo viewer">
+  <div class="viewer-inner">
+    <div class="viewer-bar">
+      <span data-lb-count></span>
+      <button class="viewer-close" data-close>Close</button>
+    </div>
+    <img alt="" />
+    <div class="viewer-navs">
+      <button class="viewer-nav" data-prev>← Prev</button>
+      <span class="num muted" data-lb-cat></span>
+      <button class="viewer-nav" data-next>Next →</button>
+    </div>
+  </div>
+</dialog>

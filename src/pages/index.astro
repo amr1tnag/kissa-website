@@ -1,0 +1,142 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import FilmCard from '../components/FilmCard.astro';
+import { films } from '../data/films';
+import { byId, categories, count, photos } from '../lib/photos';
+
+const featured = ['horizon-after-movie', 'udaan-after-movie', 'hype-reel', 'ganpati-aagman-final']
+  .map((s) => films.find((f) => f.slug === s)!);
+const reels = films.filter((f) => f.vertical);
+
+const frames = [
+  'dsc02029-1', 'zam8541', 'img-1596', '5w6a1935', 'dsc01203', 'img-6231',
+  'img-0804', 'dsc07220-1', 'img-5988', 'zam07948', 'dsc01089', 'zam8482',
+].map(byId);
+const catLabel = Object.fromEntries(categories.map((c) => [c.id, c.label]));
+const rowImg = { concert: 'zam07807', cultural: 'img-6514', sports: 'img-0822', brand: 'dsc01210' } as const;
+const filmCount = films.length;
+---
+<Layout intro>
+  <!-- HERO -->
+  <section class="hero" aria-label="Intro">
+    <div class="hero-media" data-hero-media>
+      <video autoplay muted loop playsinline poster="/media/video/hero-poster.jpg" aria-hidden="true">
+        <source src="/media/video/hero-loop.mp4" type="video/mp4" />
+      </video>
+      <div class="hero-shade"></div>
+    </div>
+    <div class="hero-inner">
+      <div>
+        <div class="hero-meta" data-hero-fade>
+          <span>Media agency — Mumbai</span>
+          <span>Photo · Film · Edit</span>
+          <span>(किस्सा = a story)</span>
+        </div>
+        <h1 class="h-display hero-title" style="margin-top:clamp(32px,7vh,80px)" data-split data-hero-title>
+          Every brand has a किस्सा।
+        </h1>
+      </div>
+      <div class="hero-mark" aria-hidden="true" data-hero-mark>किस्सा।</div>
+    </div>
+    <span class="scroll-cue" data-hero-fade>(Scroll)</span>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track" data-marquee>
+      {[0, 1].map(() => (
+        <div style="display:flex">
+          {['Concerts', 'Festivals', 'Sports', 'Brand films', 'After movies', 'Reels'].map((w) => (
+            <span class="marquee-item">{w}<span class="sep">।</span></span>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- STATEMENT -->
+  <section class="on-paper section">
+    <div class="wrap">
+      <p class="label" style="margin:0 0 28px">(About)</p>
+      <p class="statement" data-scrub-words>
+        किस्सा is Hindi for a story. We shoot what actually happens — stages, streets, stadiums and studios — and cut
+        it into the kind of story people replay.
+      </p>
+      <a class="link-arrow" href="/about" style="margin-top:32px">More about us <span>→</span></a>
+    </div>
+  </section>
+
+  <!-- FILMS -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="title"><span class="num">(01)</span><h2 class="h-display h-section" data-split>Films</h2></div>
+        <a class="link-arrow" href="/films">All {filmCount} films <span>→</span></a>
+      </div>
+      <div class="film-grid">
+        <FilmCard film={featured[0]} size="big" />
+        {featured.slice(1).map((f) => <FilmCard film={f} size="third" />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- FRAMES: horizontal scroll -->
+  <section class="on-paper" style="padding-block:clamp(72px,9vh,110px) clamp(48px,6vh,80px)" data-hscroll-section>
+    <div class="wrap">
+      <div class="section-head">
+        <div class="title"><span class="num">(02)</span><h2 class="h-display h-section" data-split>Frames</h2></div>
+        <a class="link-arrow" href="/work">All {photos.length} photos <span>→</span></a>
+      </div>
+    </div>
+    <div class="hscroll" data-hscroll>
+      <div class="hscroll-track" data-hscroll-track>
+        {frames.map((p, i) => (
+          <figure class={`hscroll-item${p.img.height > p.img.width ? ' tall' : ''}`}>
+            <a href={`/work?cat=${p.cat}`} data-cursor="View">
+              <Image src={p.img} widths={[480, 900, 1400]} sizes="(max-width: 900px) 80vw, 50vw" alt={`${catLabel[p.cat]} — frame ${i + 1}`} loading="lazy" />
+            </a>
+            <figcaption><span>{String(i + 1).padStart(2, '0')}</span><span class="muted">{catLabel[p.cat]}</span></figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT WE SHOOT -->
+  <section class="section on-paper" style="padding-top:clamp(32px,4vw,64px)">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="title"><span class="num">(03)</span><h2 class="h-display h-section" data-split>What we shoot</h2></div>
+      </div>
+      <div class="rows" data-rows>
+        {categories.map((c, i) => (
+          <a class="row" href={`/work?cat=${c.id}`} data-row-img={byId(rowImg[c.id]).img.src} data-reveal>
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="row-name">{c.label}</span>
+            <span class="row-count">{count(c.id)} photos →</span>
+          </a>
+        ))}
+        <a class="row" href="/films" data-row-img="/media/video/horizon-after-movie.jpg" data-reveal>
+          <span class="num">05</span>
+          <span class="row-name">After movies &amp; reels</span>
+          <span class="row-count">{filmCount} films →</span>
+        </a>
+      </div>
+    </div>
+    <div class="float-img" aria-hidden="true" data-float><img alt="" /></div>
+  </section>
+
+  <!-- REELS -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="title"><span class="num">(04)</span><h2 class="h-display h-section" data-split>Reels</h2></div>
+        <span class="muted num">Vertical edits, made for the feed</span>
+      </div>
+      <div class="film-grid">
+        {reels.map((f) => <FilmCard film={f} />)}
+      </div>
+    </div>
+  </section>
+</Layout>
