@@ -248,23 +248,6 @@ function filmCards() {
   dlg.addEventListener('click', (e) => { if (e.target === dlg || (e.target as HTMLElement).classList.contains('viewer-inner')) close(); });
 }
 
-/* ---------- category rows: floating image follows the cursor ---------- */
-function rows() {
-  const float = $('[data-float]');
-  const img = float ? $<HTMLImageElement>('img', float) : null;
-  if (!float || !img || !fine || reduce) return;
-  const xTo = gsap.quickTo(float, 'x', { duration: 0.6, ease: 'power3' });
-  const yTo = gsap.quickTo(float, 'y', { duration: 0.6, ease: 'power3' });
-  window.addEventListener('mousemove', (e) => { xTo(e.clientX); yTo(e.clientY); });
-  $$('[data-row-img]').forEach((row) => {
-    row.addEventListener('mouseenter', () => {
-      img.src = row.dataset.rowImg || '';
-      gsap.to(float, { opacity: 1, scale: 1, rotate: gsap.utils.random(-5, 5), duration: 0.5, ease: EASE });
-    });
-    row.addEventListener('mouseleave', () => gsap.to(float, { opacity: 0, scale: 0.85, duration: 0.35 }));
-  });
-}
-
 /* ---------- photo archive: filters + lightbox ---------- */
 function gallery() {
   const grid = $('[data-gallery]');
@@ -423,7 +406,6 @@ if (reduce) {
   marquee();
   horizontal();
   filmCards();
-  rows();
   gallery();
   footer();
   window.addEventListener('load', () => ScrollTrigger.refresh());

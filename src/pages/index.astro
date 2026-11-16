@@ -14,7 +14,6 @@ const frames = [
   'img-0804', 'dsc07220-1', 'img-5988', 'zam07948', 'dsc01089', 'zam8482',
 ].map(byId);
 const catLabel = Object.fromEntries(categories.map((c) => [c.id, c.label]));
-const rowImg = { concert: 'zam07807', cultural: 'img-6514', sports: 'img-0822', brand: 'dsc01210' } as const;
 const filmCount = films.length;
 ---
 <Layout intro>
@@ -111,20 +110,19 @@ const filmCount = films.length;
       </div>
       <div class="rows" data-rows>
         {categories.map((c, i) => (
-          <a class="row" href={`/work?cat=${c.id}`} data-row-img={byId(rowImg[c.id]).img.src} data-reveal>
+          <a class="row" href={`/work?cat=${c.id}`} data-reveal>
             <span class="num">{String(i + 1).padStart(2, '0')}</span>
             <span class="row-name">{c.label}</span>
             <span class="row-count">{count(c.id)} photos →</span>
           </a>
         ))}
-        <a class="row" href="/films" data-row-img="/media/video/horizon-after-movie.jpg" data-reveal>
+        <a class="row" href="/films" data-reveal>
           <span class="num">05</span>
           <span class="row-name">After movies &amp; reels</span>
           <span class="row-count">{filmCount} films →</span>
         </a>
       </div>
     </div>
-    <div class="float-img" aria-hidden="true" data-float><img alt="" /></div>
   </section>
 
   <!-- REELS -->
